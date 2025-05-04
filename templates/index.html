@@ -1,109 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Currency Converter</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #6dd5ed, #2193b0);
-      color: #fff;
-      text-align: center;
-      padding: 50px;
-      animation: fadeIn 1.2s ease-in-out;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d0d0d;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .converter-box {
+      background: #121212;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      animation: fadeIn 0.6s ease-in;
     }
 
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      animation: slideInDown 0.8s ease;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2rem;
+      color: #00ffc8;
     }
 
-    form {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      animation: popUp 0.8s ease;
+    h1::before {
+      content: '💱 ';
     }
 
-    select, input {
-      padding: 10px;
-      margin: 10px 0;
+    input, select {
       width: 100%;
-      border: none;
-      border-radius: 8px;
+      padding: 14px;
+      margin-top: 15px;
       font-size: 1rem;
+      border: 1px solid #333;
+      border-radius: 10px;
+      background: #1f1f1f;
+      color: #fff;
+      appearance: none;
+      transition: all 0.3s ease;
+    }
+
+    select option {
+      background: #1f1f1f;
+      color: #ffffff;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #00ffc8;
+      background: #262626;
     }
 
     button {
-      padding: 12px;
-      background: #ffffff;
-      color: #2193b0;
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      font-size: 1rem;
       font-weight: bold;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
+      background: #00ffc8;
+      color: #000;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background: #f1f1f1;
+      background: #00dab3;
+      transform: scale(1.03);
     }
 
     .result {
+      margin-top: 30px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      text-align: center;
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      color: #00ffc8;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .footer {
       margin-top: 20px;
-      font-size: 1.5rem;
-      animation: fadeIn 0.8s ease;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideInDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes popUp {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🌍 Currency Converter</h1>
-  <form method="POST">
-    <label for="amount">Amount:</label>
-    <input type="number" step="0.01" name="amount" required>
+  <form class="converter-box" method="POST">
+    <h1>Currency Converter</h1>
 
-    <label for="from_currency">From:</label>
+    <input type="number" step="0.01" name="amount" placeholder="Enter amount" required />
+
     <select name="from_currency" required>
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="GBP">GBP</option>
-      <option value="INR">INR</option>
-      <option value="JPY">JPY</option>
+      <option value="USD">USD $ – US Dollar</option>
+      <option value="EUR">EUR € – Euro</option>
+      <option value="GBP">GBP £ – British Pound</option>
+      <option value="INR">INR ₹ – Indian Rupee</option>
+      <option value="JPY">JPY ¥ – Japanese Yen</option>
+      <option value="AUD">AUD A$ – Australian Dollar</option>
+      <option value="CAD">CAD C$ – Canadian Dollar</option>
+      <option value="CHF">CHF – Swiss Franc</option>
+      <option value="CNY">CNY ¥ – Chinese Yuan</option>
+      <option value="HKD">HKD HK$ – Hong Kong Dollar</option>
+      <option value="NZD">NZD NZ$ – New Zealand Dollar</option>
+      <option value="BRL">BRL R$ – Brazilian Real</option>
+      <option value="ZAR">ZAR R – South African Rand</option>
+      <option value="SGD">SGD S$ – Singapore Dollar</option>
+      <option value="KRW">KRW ₩ – South Korean Won</option>
+      <option value="MXN">MXN $ – Mexican Peso</option>
+      <option value="SEK">SEK kr – Swedish Krona</option>
+      <option value="NOK">NOK kr – Norwegian Krone</option>
+      <option value="DKK">DKK kr – Danish Krone</option>
     </select>
 
-    <label for="to_currency">To:</label>
     <select name="to_currency" required>
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="GBP">GBP</option>
-      <option value="INR">INR</option>
-      <option value="JPY">JPY</option>
+      <option value="USD">USD $ – US Dollar</option>
+      <option value="EUR">EUR € – Euro</option>
+      <option value="GBP">GBP £ – British Pound</option>
+      <option value="INR">INR ₹ – Indian Rupee</option>
+      <option value="JPY">JPY ¥ – Japanese Yen</option>
+      <option value="AUD">AUD A$ – Australian Dollar</option>
+      <option value="CAD">CAD C$ – Canadian Dollar</option>
+      <option value="CHF">CHF – Swiss Franc</option>
+      <option value="CNY">CNY ¥ – Chinese Yuan</option>
+      <option value="HKD">HKD HK$ – Hong Kong Dollar</option>
+      <option value="NZD">NZD NZ$ – New Zealand Dollar</option>
+      <option value="BRL">BRL R$ – Brazilian Real</option>
+      <option value="ZAR">ZAR R – South African Rand</option>
+      <option value="SGD">SGD S$ – Singapore Dollar</option>
+      <option value="KRW">KRW ₩ – South Korean Won</option>
+      <option value="MXN">MXN $ – Mexican Peso</option>
+      <option value="SEK">SEK kr – Swedish Krona</option>
+      <option value="NOK">NOK kr – Norwegian Krone</option>
+      <option value="DKK">DKK kr – Danish Krone</option>
     </select>
 
     <button type="submit">Convert</button>
+
+    {% if result %}
+      <div class="result">
+        {{ symbol }}{{ result }}
+      </div>
+    {% endif %}
   </form>
 
-  {% if result %}
-    <div class="result">💱 Converted Amount: {{ result }}</div>
-  {% endif %}
+  <div class="footer">
+    Developed By – SAHIL
+  </div>
 </body>
 </html>
