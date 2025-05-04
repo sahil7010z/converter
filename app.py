@@ -1,17 +1,10 @@
 from flask import Flask, render_template, request
 import requests
+import os
 
 app = Flask(__name__)
 
 EXCHANGE_URL = "https://api.exchangerate-api.com/v4/latest/"
-
-# Include currency symbols
-CURRENCY_SYMBOLS = {
-    "USD": "$", "EUR": "€", "GBP": "£", "INR": "₹", "JPY": "¥",
-    "AUD": "A$", "CAD": "C$", "CHF": "CHF", "CNY": "¥", "HKD": "HK$",
-    "NZD": "NZ$", "BRL": "R$", "ZAR": "R", "SGD": "S$", "KRW": "₩",
-    "MXN": "$", "SEK": "kr", "NOK": "kr", "DKK": "kr"
-}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -28,14 +21,19 @@ def index():
             rate = data['rates'].get(to_currency)
             if rate:
                 result = round(rate * amount, 2)
-                symbol = CURRENCY_SYMBOLS.get(to_currency, '')
+                symbols = {
+                    "USD": "$", "EUR": "€", "GBP": "£", "INR": "₹", "JPY": "¥", 
+                    "CAD": "C$", "AUD": "A$", "CNY": "¥", "RUB": "₽", "KRW": "₩", 
+                    "BRL": "R$", "ZAR": "R"
+                }
+                symbol = symbols.get(to_currency, '')
             else:
                 result = "Currency not supported."
-        except Exception as e:
+        except:
             result = "Error fetching exchange rate."
-            print(e)
 
     return render_template('index.html', result=result, symbol=symbol)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
